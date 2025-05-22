@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { GiChefToque, GiForkKnifeSpoon } from "react-icons/gi";
-import { NavLink, useNavigate } from 'react-router-dom';
-import { FiBook, FiHome, FiPhone, FiShoppingCart, FiStar } from 'react-icons/fi'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { FiBook, FiHome, FiKey, FiLogOut, FiPhone, FiShoppingCart, FiStar } from 'react-icons/fi'
 import { useCart } from '../../CartContext/CartContext';
+import Login from '../Login/Login';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const { totalItems } = useCart();
     const navigate = useNavigate();
+    const location = useLocation();
 
     // COMBINING UPDATING LOGIN MODAL AND AUTH STATUS ON LOCATION CHANGE
     const [isAuthenticated, setIsAuthenticated] = useState(
@@ -33,6 +35,49 @@ const Navbar = () => {
     }
 
     // EXTRACT DESKTOP AUTH BUTTON
+    const renderDesktopAuthButton = () => {
+        return isAuthenticated ? (
+            <button
+                onClick={handleLogout}
+                className='px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm'
+            >
+                <FiLogOut className='text-base md:text-lg lg:text-lg' />
+                <span className='text-shadow'>Logout</span>
+            </button>
+        ) : (
+            <button
+                onClick={() => navigate('/login')}
+                className='px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm'
+            >
+                <FiKey className='text-base md:text-lg lg:text-lg' />
+                <span className='text-shadow'>Login</span>
+            </button>
+        )
+    }
+
+    // EXTRACT MOBILE AUTH BTN
+    const renderMobileAuthButton = () => {
+        return isAuthenticated ? (
+            <button 
+                onClick={handleLogout}
+                className='w-full px-4 py-3 bg-gradient-to-br from-amber-500 to-amber-700 text-[#2D1B0E] rounded-xl font-semibold flex items-center justify-center space-x-2 text-sm'
+            >
+                <FiLogOut />
+                <span>Logout</span>
+            </button>
+        ) : (
+            <button 
+                onClick={() => {
+                    navigate('/login');
+                    setIsOpen(false);
+                }}
+                className='w-full px-4 py-3 bg-gradient-to-br from-amber-500 to-amber-700 text-[#2D1B0E] rounded-xl font-semibold flex items-center justify-center space-x-2 text-sm'
+            >
+                <FiLogOut />
+                <span>Login</span>
+            </button>
+        )
+    }
 
     const navLinks = [
         { name: 'Home', href: '/', icon: <FiHome /> },
@@ -101,6 +146,7 @@ const Navbar = () => {
                                     </span>
                                 )}
                             </NavLink>
+                            {renderDesktopAuthButton()}
                         </div>
                     </div>
 
@@ -156,7 +202,29 @@ const Navbar = () => {
                                     </span>
                                 )}
                             </NavLink>
+                            {renderMobileAuthButton()}
                         </div>
+                    </div>
+                </div>
+            )}
+
+            {/* LOGIN MODAL */}
+            {showLoginModal && (
+                <div className='fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4'>
+                    <div className='bg-gradient-to-br fro-[#2D1B0E] to-[#4A372A] rounded-xl p-6 w-full max-w-[480px] relative border-4 border-amber-700/30 shadow-[0_0_30px] shadow-amber-500/30'>
+                        <button
+                            onClick={() => navigate('/')}
+                            className='absolute top-2 right-2 text-amber-500 hover:text-amber-300 text-2xl'
+                        >
+                            &times;
+                        </button>
+                        <h2 className='text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent mb-4 text-center'>
+                            Excellent-bistro
+                        </h2>
+                        <Login
+                            onLoginSuccess={handleLoginSuccess} 
+                            onClose={() => navigate('/')} 
+                        />
                     </div>
                 </div>
             )}
