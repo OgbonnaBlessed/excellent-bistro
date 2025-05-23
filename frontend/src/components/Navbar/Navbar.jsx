@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { GiChefToque, GiForkKnifeSpoon } from "react-icons/gi";
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
