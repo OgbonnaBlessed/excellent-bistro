@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaArrowRight, FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaUser } from 'react-icons/fa';
+import { FaArrowRight, FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaUserPlus } from 'react-icons/fa';
 import { iconClass, inputBase } from '../../assets/dummydata';
 import { Link } from 'react-router-dom'
 
@@ -99,7 +99,13 @@ const Login = ({ onLoginSuccess, onClose }) => {
             </form>
 
             <div className='text-center'>
-                <Link></Link>
+                <Link 
+                    to='/signup'
+                    onClick={onClose}
+                    className='inline-flex items-center gap-2 text-amber-400 hover:text-amber-600 transition-colors'
+                >
+                    <FaUserPlus /> Create New Account
+                </Link>
             </div>
         </div>
     )
