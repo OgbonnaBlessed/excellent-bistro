@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
 import { FaRegEnvelope } from 'react-icons/fa';
 import { BiChevronRight } from 'react-icons/bi'
