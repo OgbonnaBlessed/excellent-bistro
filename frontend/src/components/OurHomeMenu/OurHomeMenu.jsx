@@ -101,7 +101,7 @@ const OurHomeMenu = () => {
                                                 </>
                                             ) : (
                                                 <button 
-                                                    onClick={() => addToCart(item, i)}
+                                                    onClick={() => addToCart(item, 1)}
                                                     className='bg-amber-900/40 px-4 py-1.5 rounded-full font-cinzel text-xs uppercase sm:text-sm tracking-wider transition-transform duration-300 hover:scale-110 hover:shadow-lg hover:shadow-amber-900/20 relative overflow-hidden border border-amber-800/50'
                                                 >
                                                     <span className='relative z-10 text-xs text-black'>
