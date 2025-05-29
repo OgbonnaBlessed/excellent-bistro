@@ -6,6 +6,7 @@ import Menu from './pages/Menu'
 import AboutPage from './pages/AboutPage'
 import CartPage from './pages/CartPage'
 import ContactPage from './pages/ContactPage'
+import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 
 const App = () => {
   return (
@@ -15,8 +16,12 @@ const App = () => {
       <Route path='/signup' element={<Signup />} />
       <Route path='/menu' element={<Menu />} />
       <Route path='/about' element={<AboutPage />} />
-      <Route path='/cart' element={<CartPage />} />
       <Route path='/contact' element={<ContactPage />} />
+      <Route path='/cart' element={
+        <PrivateRoute>
+          <CartPage />
+        </PrivateRoute>
+      } />
     </Routes>
   )
 }
