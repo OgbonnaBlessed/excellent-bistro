@@ -3,9 +3,15 @@ import cors from 'cors';
 import 'dotenv/config'
 import { connectDB } from './config/db.js';
 import userRoutes from './routes/user.route.js'
+import itemRoutes from './routes/item.route.js'
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // DATABASE
 connectDB();
@@ -27,6 +33,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // ROUTES
 app.use('/api/user', userRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/items', itemRoutes);
 
 app.get('/', (req, res) => {
     res.send('API WORKING');
