@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { connectDB } from './config/db.js';
 import userRoutes from './routes/user.route.js'
 import itemRoutes from './routes/item.route.js'
+import cartRoutes from './routes/cart.route.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -35,6 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/user', userRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/items', itemRoutes);
+app.use('/api/cart', cartRoutes);
 
 app.get('/', (req, res) => {
     res.send('API WORKING');
