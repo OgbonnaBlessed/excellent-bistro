@@ -135,5 +135,5 @@ orderSchema.index('save', function (next) {
     next();
 })
 
-const order = mongoose.model('Order', orderSchema);
-export default order;
+const orderModel = mongoose.model('Order', orderSchema);
+export default orderModel;
