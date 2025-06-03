@@ -31,7 +31,7 @@ export const createItem = async (req, res, next) => {
 export const getItems = async (_req, res, next) => {
     try {
         const items = await itemModel.find().sort({ createdAt: -1 });
-        const host = `${_req, protocol}://${_req.get('host')}`;
+        const host = `${_req.protocol}://${_req.get('host')}`;
 
         const withFullUrl = itemModel.applyTimestamps(i => ({
             ...i.toObject(),
