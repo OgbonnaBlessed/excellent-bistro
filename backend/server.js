@@ -5,6 +5,7 @@ import { connectDB } from './config/db.js';
 import userRoutes from './routes/user.route.js'
 import itemRoutes from './routes/item.route.js'
 import cartRoutes from './routes/cart.route.js'
+import orderRoutes from './routes/order.route.js'
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -37,6 +38,7 @@ app.use('/api/user', userRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/items', itemRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.get('/', (req, res) => {
     res.send('API WORKING');
