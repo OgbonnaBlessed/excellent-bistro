@@ -136,7 +136,7 @@ const AddItems = () => {
                                     value={formData.description}
                                     onChange={handleInputChange}
                                     placeholder='Enter Product Description'
-                                    className={styles.inputField + 'h-32 sm:h-40'}
+                                    className={styles.inputField + ' h-32 sm:h-40'}
                                     required 
                                 />
                             </div>
@@ -178,7 +178,7 @@ const AddItems = () => {
                                             name='price'
                                             value={formData.price}
                                             onChange={handleInputChange}
-                                            className={styles.inputField + 'pl-10 sm:pl-12'}
+                                            className={styles.inputField + ' pl-10 sm:pl-12'}
                                             placeholder='Enter Price'
                                             min='0'
                                             step='0.01'
@@ -232,7 +232,7 @@ const AddItems = () => {
                                             name="hearts"
                                             value={formData.hearts}
                                             onChange={handleInputChange}
-                                            className={styles.inputField + 'pl-10 sm:pl-12'} 
+                                            className={styles.inputField + ' pl-10 sm:pl-12'} 
                                             placeholder='Enter Likes'
                                             min='0'
                                             required
