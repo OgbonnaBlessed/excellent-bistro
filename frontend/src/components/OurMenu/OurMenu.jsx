@@ -1,19 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useCart } from '../../CartContext/CartContext';
-import { dummyMenuData } from '../../assets/OmDD'
 import { FaMinus, FaPlus } from 'react-icons/fa'
 import './OurMenu.css'
+import axios from 'axios';
 
 const categories = ['Breakfast', 'Lunch', 'Dinner', 'Mexican', 'Italian', 'Desserts', 'Drinks'];
 
 const OurMenu = () => {
     const [activeCategory, setActiveCategory] = useState(categories[0]);
+    const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
+    const [menuData, setMenuData] = useState({});
 
-    const displayItems = (dummyMenuData[activeCategory] || []).slice(0, 12);
+    useEffect(() => {
+        const fetchMenu = async () => {
+            try {
+                const res = await axios.get('http://localhost:4000/api/items');
+                const byCategory = res.data.reduce((acc, item) => {
+                    const cat = item.category || 'Uncategorized';
+                    acc[cat] = acc[cat] || [];
+                    acc[cat].push(item);
+                    return acc;
+                }, {})
+                setMenuData(byCategory);
 
-    const { cartItems, addToCart, removeFromCart } = useCart();
+            } catch (error) {
+                console.error('Failed to load menu items:', error);
+            }
+        }
+        fetchMenu();
+    }, []);
 
-    const getQuantity = id => (cartItems.find(i => i.id === id) ?.quantity || 0);
+    // USE ID TO FIND AND UPDATE
+    const getCartEntry = id => cartItems.find(ci => ci.item._id === id);
+    const getQuantity = id => getCartEntry(id)?.quantity || 0;
+
+    // ITEMS TO DISPLAY
+    const displayItems = (menuData[activeCategory] ?? []).slice(0, 12);
 
     return (
         <div className='bg-gradient-to-br from-[#1A120B] via-[#2E1E14] to-[#3E2B1D] min-h-screen py-16 px-4 sm:px-6 lg:px-8'>
@@ -46,16 +68,18 @@ const OurMenu = () => {
 
                 <div className='grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4'>
                     {displayItems.map((item, i) => {
-                        const quantity = getQuantity(item.id);
+                        const cartEntry = getCartEntry(item._id);
+                        const quantity = cartEntry?.quantity || 0;
+
                         return (
                             <div 
-                                key={item.id}
+                                key={item._id}
                                 className='relative bg-amber-900/20 rounded-2xl overflow-hidden border border-amber-800/30 backdrop-blur-sm flex flex-col transition-all duration-500'
                                 style={{ '-index': i }}
                             >
                                 <div className='relative h-48 sm:h-56 md:h-60 flex items-center justify-center bg-black/10'>
                                     <img 
-                                        src={item.image} 
+                                        src={item.imageUrl || item.image} 
                                         alt={item.name}
                                         className='max-h-full max-w-full object-contain transition-all duration-700'
                                     />
@@ -72,7 +96,7 @@ const OurMenu = () => {
                                     <div className='mt-auto flex items-center gap-4 justify-between'>
                                         <div className='bg-amber-100/10 backdrop-blur-sm px-3 py-1 rounded-2xl shadow-lg'>
                                             <span className='text-xl font-bold text-amber-300 font-dancingscript'>
-                                                ₹{item.price}
+                                                ₹{Number(item.price).toFixed(2)}
                                             </span>
                                         </div>
 
@@ -82,8 +106,8 @@ const OurMenu = () => {
                                                     <button
                                                         className='w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-colors'
                                                         onClick={() => quantity > 1 
-                                                            ? addToCart(item, quantity - 1) 
-                                                            : removeFromCart(item.id)
+                                                            ? updateQuantity(cartEntry._id, quantity - 1) 
+                                                            : removeFromCart(cartEntry._id)
                                                         }
                                                     >
                                                         <FaMinus className='text-amber-100'/>
@@ -93,7 +117,7 @@ const OurMenu = () => {
                                                     </span>
                                                     <button
                                                         className='w-8 h-8 rounded-full bg-amber-900/40 flex items-center justify-center hover:bg-amber-800/50 transition-colors'
-                                                        onClick={() => addToCart(item, quantity + 1)}
+                                                        onClick={() => updateQuantity(cartEntry._id, quantity + 1)}
                                                     >
                                                         <FaPlus className='text-amber-100' />
                                                     </button>

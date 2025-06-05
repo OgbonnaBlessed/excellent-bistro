@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { GiChefToque, GiForkKnifeSpoon } from "react-icons/gi";
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { FiBook, FiHome, FiKey, FiLogOut, FiPhone, FiShoppingCart, FiStar } from 'react-icons/fi'
+import { FiBook, FiHome, FiKey, FiLogOut, FiPhone, FiShoppingCart, FiStar, FiPackage } from 'react-icons/fi'
 import { useCart } from '../../CartContext/CartContext';
 import Login from '../Login/Login';
 
@@ -38,17 +38,17 @@ const Navbar = () => {
         return isAuthenticated ? (
             <button
                 onClick={handleLogout}
-                className='px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm'
+                className='px-3 lg:px-4 py-1.5 lg:py-2 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-sm'
             >
-                <FiLogOut className='text-base md:text-lg lg:text-lg' />
+                <FiLogOut className='text-base lg:text-lg' />
                 <span className='text-shadow'>Logout</span>
             </button>
         ) : (
             <button
                 onClick={() => navigate('/login')}
-                className='px-3 md:px-3 lg:px-6 py-1.5 md:py-2 lg:py-3 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-xs md:text-sm lg:text-sm'
+                className='px-3 lg:px-4 py-1.5 lg:py-2 bg-gradient-to-br from-amber-600 to-amber-700 text-[#2D1B0E] rounded-2xl font-bold hover:shadow-lg hover:shadow-amber-600/40 transition-all transform hover:scale-[1.02] border-2 border-amber-600/20 flex items-center space-x-2 shadow-md shadow-amber-900/20 text-sm'
             >
-                <FiKey className='text-base md:text-lg lg:text-lg' />
+                <FiKey className='text-base lg:text-lg' />
                 <span className='text-shadow'>Login</span>
             </button>
         )
@@ -83,6 +83,9 @@ const Navbar = () => {
         { name: 'Menu', href: '/menu', icon: <FiBook /> },
         { name: 'About', href: '/about', icon: <FiStar /> },
         { name: 'Contact', href: '/contact', icon: <FiPhone /> },
+        ...(isAuthenticated ? [
+            { name: 'My Orders', to: '/myorder', icon: <FiPackage />}
+        ] : [])
     ];
 
     return (

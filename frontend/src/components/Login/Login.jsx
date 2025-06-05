@@ -2,27 +2,62 @@ import React, { useEffect, useState } from 'react'
 import { FaArrowRight, FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaUserPlus } from 'react-icons/fa';
 import { iconClass, inputBase } from '../../assets/dummydata';
 import { Link } from 'react-router-dom'
+import axios from 'axios'
+
+const url = 'http://localhost:4000'
 
 const Login = ({ onLoginSuccess, onClose }) => {
-    const [showToast, setShowToast] = useState(false);
+    const [showToast, setShowToast] = useState({ visible: false, message: '', isError: '' });
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({ username: '', password: '', rememberMe: '' });
+    const [formData, setFormData] = useState({ email: '', password: '', rememberMe: '' });
 
     useEffect(() => {
         const stored = localStorage.getItem('loginData');
         if (stored) setFormData(JSON.parse(stored));
     }, []);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        formData.rememberMe 
-            ? localStorage.setItem('loginData', JSON.stringify(formData)) 
-            : localStorage.removeItem('loginData');
+        try {
+            const res = await axios.post(`${url}/api/user/login`, {
+                email: formData.email,
+                password: formData.password
+            })
+            console.log('axios res:', res.data.message);
 
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 3000);
-        onLoginSuccess();
+            if (res.status === 200 && res.data.success && res.data.token) {
+                localStorage.setItem('authToken', res.data.token);
+                console.log('authToken:', res.data.token);
+
+                // REMEMBER ME
+                formData.rememberMe
+                    ? localStorage.setItem('loginData', JSON.stringify(formData))
+                    : localStorage.removeItem('loginData');
+                
+                setShowToast({ visible: true, message: 'login successful!', isError: false });
+                setTimeout(() => {
+                    setShowToast({ visible: false, message: '', isError: false });
+                    onLoginSuccess(res.data.token);
+                }, 1500);
+            } else {
+                console.warn('unexpected error:', res.data);
+                throw new Error(res.data.message || 'login failed')
+            }
+
+        } catch (error) {
+            console.error('axios error:', error);
+            if (error.response) {
+                console.error('server res:', error.response.status, error.response.data);
+            }
+
+            const msg = error.response?.data?.message || error.message || 'login failed'
+            setShowToast({ visible: true, message: msg, isError: false });
+            setTimeout(() => {
+                setShowToast({ visible: false, message: '', isError: false });
+                // onLoginSuccess(res.data.token);
+            }, 2000);
+        }
     }
 
     const handleChange = ({ target: { name, value, type, checked }}) => 
@@ -33,14 +68,21 @@ const Login = ({ onLoginSuccess, onClose }) => {
     return (
         <div className='space-y-6 relative'>
             <div className={`fixed top-4 right-4 z-50 transition-all duration-300 
-                ${showToast 
+                ${showToast.visible
                     ? 'translate-y-0 opacity-100' 
                     : 'translate-y-20 opacity-0'}`
                 }
             >
-                <div className='bg-green-600 text-white px-4 py-3 rounded-md shadow-lg flex items-center gap-2 text-sm'>
+                <div 
+                    className={`px-4 py-3 rounded-md shadow-lg flex items-center gap-2 text-sm text-white 
+                        ${showToast.isError 
+                            ? 'bg-red-600' 
+                            : 'bg-green-400'
+                        }`
+                    }
+                >
                     <FaCheckCircle className='flex-shrink-0' />
-                    <span>Login Successful</span>
+                    <span>{showToast.message}</span>
                 </div>
             </div>
 
@@ -51,10 +93,10 @@ const Login = ({ onLoginSuccess, onClose }) => {
                 <div className='relative'>
                     <FaUser className={iconClass} />
                     <input 
-                        type="text" 
-                        name='username'
-                        placeholder='Username'
-                        value={formData.username}
+                        type="email" 
+                        name='email'
+                        placeholder='Email'
+                        value={formData.email}
                         onChange={handleChange}
                         className={`${inputBase} pl-10 pr-4 py-3`}
                     />
@@ -67,7 +109,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
                         placeholder='Password'
                         value={formData.password}
                         onChange={handleChange}
-                        className={`${inputBase} pl-10 pr-4 py-3`}
+                        className={`${inputBase} pl-10 pr-10 py-3`}
                     />
                     <button
                         type="button"

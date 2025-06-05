@@ -41,7 +41,7 @@ export const addToCart = asyncHandler(async (req, res) => {
     }
 
     cartItem = await cartItemModel.create({
-        user: req.user_id,
+        user: req.user._id,
         item: itemId,
         quantity,
     })
@@ -77,7 +77,7 @@ export const updateCartItem = asyncHandler(async (req, res) => {
 export const deleteCartItem = asyncHandler(async (req, res) => {
     const cartItem = await cartItemModel.findOne({ _id: req.params.id, user: req.user._id });
 
-    if (cartItem) {
+    if (!cartItem) {
         res.status(404);
         throw new Error('Cart item not found')
     }

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { FaArrowLeft, FaCheckCircle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const url = 'http://localhost:4000'
 
 const AwesomeToast = ({ message, icon }) => (
     <div className='animate-slide-in fixed bottom-6 right-6 flex items-center bg-gradient-to-br from-amber-500 to-amber-600 px-6 py-4 rounded-lg shadow-lg border-2 border-amber-300/20'>
@@ -10,17 +13,17 @@ const AwesomeToast = ({ message, icon }) => (
 )
 
 const Signup = () => {
-    const [showToast, setShowToast] = useState(false);
+    const [showToast, setShowToast] = useState({ visible: false, message: '', icon: null });
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const navigate = useNavigate
 
     // FOR TOAST
     useEffect(() => {
-        if (showToast) {
+        if (showToast.visible && showToast.message === 'Sign Up Successful') {
             const timer = setTimeout(() => {
-                setShowToast(false);
-                navigate('/');
+                setShowToast({ visible: false, message: '', icon: null });
+                navigate('/login');
             }, 2000);
             return () => clearTimeout(timer);
         }
@@ -30,10 +33,30 @@ const Signup = () => {
 
     const handleChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Sign up:', formData);
-        setShowToast(true);
+        console.log('Sign up fired:', formData);
+        
+        try {
+            const res = await axios.post(`${url}/api/user/register`, formData);
+            console.log('register response:', res.data);
+
+            if (res.data.success && res.data.token) {
+                localStorage.setItem('authToken', res.data.token)
+                setShowToast({
+                    visible: true,
+                    message: 'Sign Up Successful',
+                    icon: <FaCheckCircle />
+                })
+                return;
+            }
+            throw new Error(res.data.message || 'Registration failed');
+
+        } catch (error) {
+            console.error('registration error', error);
+            const msg = error.response?.data?.message || error.message || 'registration failed'
+            setShowToast({ visible: false, message: msg, icon: <FaCheckCircle /> })
+        }
     } 
 
     return (
