@@ -111,9 +111,12 @@ const Cart = () => {
                                     <h2 className='text-3xl font-dancingscript text-amber-100'>
                                         Total: ₹{Number(totalAmount).toFixed(2)}
                                     </h2>
-                                    <button className='bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95'>
+                                    <Link 
+                                        to='/checkout' 
+                                        className='bg-amber-900/40 px-8 py-3 rounded-full font-cinzel uppercase tracking-wider hover:bg-amber-800/50 transition-all duration-300 text-amber-100 flex items-center gap-2 active:scale-95'
+                                    >
                                         Checkout Now
-                                    </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

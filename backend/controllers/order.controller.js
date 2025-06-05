@@ -8,7 +8,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 export const createOrder = async (req, res) => {
     try {
         const {
-            firstName, lastName, phone, email, address, city, zipCode, paymentMethod, subtotal, tax, total, items
+            firstName, lastName, phone, email, address, city, zipCode, paymentMethod, subtotal, tax, shipping, total, items
         } = req.body;
 
         if (!items || !Array.isArray(items) || items.length === 0) {

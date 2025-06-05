@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage'
 import CartPage from './pages/CartPage'
 import ContactPage from './pages/ContactPage'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
+import CheckoutPage from './pages/CheckoutPage'
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Route path='/menu' element={<Menu />} />
       <Route path='/about' element={<AboutPage />} />
       <Route path='/contact' element={<ContactPage />} />
+      <Route path='/checkout' element={<CheckoutPage />} />
       <Route path='/cart' element={
         <PrivateRoute>
           <CartPage />
