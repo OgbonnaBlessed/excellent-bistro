@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { useCart } from '../CartContext/CartContext'
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -29,7 +30,7 @@ const VerifyPaymentPage = () => {
         }
 
         // STRIPE SUCCESS = TRUE
-        axios.get('http://localhost:4000/api/orders/confirm', {
+        axios.get('https://excellent-bistro.onrender.com/api/orders/confirm', {
             params: { session_id },
             headers: authHeaders
         })

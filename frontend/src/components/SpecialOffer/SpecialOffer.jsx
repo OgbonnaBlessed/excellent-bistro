@@ -13,7 +13,7 @@ const SpecialOffer = () => {
 
     // FETCH MENU
     useEffect(() => {
-        axios.get('http://localhost:4000/api/items')
+        axios.get('https://excellent-bistro.onrender.com/api/items')
             .then(res => setItems(res.data.items ?? res.data))
             .catch(error => console.error(error))
     }, [])

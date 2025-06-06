@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaMinus, FaPlus, FaTrash } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
 
-const API_URL = 'http://localhost:4000'
+const API_URL = 'https://excellent-bistro.onrender.com'
 
 const Cart = () => {
     const { cartItems, removeFromCart, updateQuantity, totalAmount } = useCart();

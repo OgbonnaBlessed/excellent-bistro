@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react'
 import { FaArrowLeft, FaLock } from 'react-icons/fa'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
@@ -30,7 +31,7 @@ const Checkout = () => {
             setLoading(true);
 
             if (paymentStatus === 'success' && sessionId) {
-                axios.post('http://localhost:4000/api/orders/confirm',
+                axios.post('https://excellent-bistro.onrender.com/api/orders/confirm',
                     { sessionId },
                     { headers: authHeaders })
                     .then(({ data }) => {
@@ -79,7 +80,7 @@ const Checkout = () => {
         try {
             if (formData.paymentMethod === 'online') {
                 const { data } = await axios.post(
-                    'http://localhost:4000/api/orders',
+                    'https://excellent-bistro.onrender.com/api/orders',
                     payload,
                     { headers: authHeaders }
                 );
@@ -88,7 +89,7 @@ const Checkout = () => {
             } else {
                 // COD
                 const { data } = await axios.post(
-                    'http://localhost:4000/api/orders',
+                    'https://excellent-bistro.onrender.com/api/orders',
                     payload,
                     { headers: authHeaders }
                 )

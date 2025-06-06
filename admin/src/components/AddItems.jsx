@@ -56,7 +56,7 @@ const AddItems = () => {
             });
 
             const res = await axios.post(
-                'http://localhost:4000/api/items',
+                'https://excellent-bistro.onrender.com/api/items',
                 payload,
                 { headers: { 'Content-Type': 'multipart/form-data' }}
             );
