@@ -9,6 +9,7 @@ import ContactPage from './pages/ContactPage'
 import PrivateRoute from './components/PrivateRoute/PrivateRoute'
 import CheckoutPage from './pages/CheckoutPage'
 import VerifyPaymentPage from './pages/VerifyPaymentPage'
+import MyOrderPage from './pages/MyOrderPage'
 
 const App = () => {
   return (
@@ -19,16 +20,30 @@ const App = () => {
       <Route path='/menu' element={<Menu />} />
       <Route path='/about' element={<AboutPage />} />
       <Route path='/contact' element={<ContactPage />} />
-      <Route path='/checkout' element={<CheckoutPage />} />
 
       {/* PAYMENT VERIFICATION */}
       <Route path='/myorder/verify' element={<VerifyPaymentPage />} />
 
       <Route path='/cart' element={
-        <PrivateRoute>
-          <CartPage />
-        </PrivateRoute>
-      } />
+          <PrivateRoute>
+            <CartPage />
+          </PrivateRoute>
+        } 
+      />
+
+      <Route path='/checkout' element={
+          <PrivateRoute>
+            <CheckoutPage />
+          </PrivateRoute>
+        } 
+      />
+
+      <Route path='/myorder' element={
+          <PrivateRoute>
+            <MyOrderPage />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   )
 }

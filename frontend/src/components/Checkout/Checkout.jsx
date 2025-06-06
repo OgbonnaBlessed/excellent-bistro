@@ -186,7 +186,7 @@ const Checkout = () => {
                             className='w-full bg-gradient-to-r from-red-600 to-amber-600 py-4 rounded-xl font-bold flex justify-center items-center'
                         >
                             <FaLock className='mr-2'/>
-                            { loading ? 'Processing' : 'Complete Order' }
+                            { loading ? 'Processing...' : 'Complete Order' }
                         </button>
                     </div>
                 </form>

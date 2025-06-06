@@ -84,7 +84,7 @@ const Navbar = () => {
         { name: 'About', href: '/about', icon: <FiStar /> },
         { name: 'Contact', href: '/contact', icon: <FiPhone /> },
         ...(isAuthenticated ? [
-            { name: 'My Orders', to: '/myorder', icon: <FiPackage />}
+            { name: 'Orders', href: '/myorder', icon: <FiPackage />}
         ] : [])
     ];
 
