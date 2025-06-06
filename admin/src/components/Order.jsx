@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { layoutClasses, tableClasses, statusStyles, paymentMethodDetails, iconMap } from '../assets/dummyadmin'
 import axios from 'axios';
-import { FiBox, FiUser } from 'react-icons/fi';
+import { FiBox, FiUser, FiMapPin } from 'react-icons/fi';
 
 const Order = () => {
     const [orders, setOrders] = useState([]);
@@ -127,6 +127,15 @@ const Order = () => {
                                             </td>
 
                                             <td className={tableClasses.cellBase}>
+                                                <div className='flex items-center gap-2'>
+                                                    <FiMapPin className='text-amber-400'/>
+                                                    <div className='text-amber-100/80 text-sm max-w-[200px]'>
+                                                        {order.address}, {order.city} - {order.zipCode}
+                                                    </div>
+                                                </div>
+                                            </td>
+
+                                            <td className={tableClasses.cellBase}>
                                                 <div className='space-y-1 max-h-52 overflow-auto'>
                                                     {order.items.map((itm, idx) => (
                                                         <div
@@ -146,8 +155,8 @@ const Order = () => {
 
                                                                 <div className='flex items-center gap-2 text-xs text-amber-400/60'>
                                                                     <span>₹{itm.item.price.toFixed(2)}</span>
-                                                                    <span>&dot;</span>
-                                                                    <span>x{itm.quantity}</span>
+                                                                    <span>&middot;</span>
+                                                                    <span> x {itm.quantity}</span>
                                                                 </div>
                                                             </div>
                                                         </div>

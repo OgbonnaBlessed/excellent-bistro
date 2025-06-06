@@ -108,7 +108,7 @@ const orderSchema = new mongoose.Schema({
     // ORDER TRACKKING
     status: {
         type: String,
-        enum: ['processing', 'outForDelivery', 'delivery'],
+        enum: ['processing', 'outForDelivery', 'delivered'],
         default: 'processing',
         index: true
     },
