@@ -48,12 +48,12 @@ const Footer = () => {
                                     placeholder='Enter your email...'
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
-                                    className='w-full px-4 py-2.5 rounded-lg bg-amber-50/5 border-2 border-amber-400/30 focus:outline-none pr-24 placeholder-amber-200/50 transition-all duration-300 focus:border-amber-400 focus:ring-4 focus:ring-amber-400/20'
+                                    className='w-full px-4 py-2.5 rounded-lg bg-amber-50/5 border-2 border-amber-400/30 focus:outline-none pr-24 placeholder-amber-200/50 transition-all duration-300 outline-none focus:ring-0'
                                     required
                                 />
                                 <button
                                     type="submit"
-                                    className='absolute right-1 top-1 bg-gradient-to-br from-amber-300 via-orange-500 to-amber-600 text-white px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg hover:shadow-amber-400/30 overflow-hidden transition-all duration-500'
+                                    className='absolute right-1.5 transform top-1/2 -translate-y-1/2 cursor-pointer bg-gradient-to-br from-amber-300 via-orange-500 to-amber-600 text-white px-4 py-2 rounded-full flex items-center gap-1.5 shadow-lg hover:shadow-amber-400/30 overflow-hidden transition-all duration-500'
                                 >
                                     <span className='font-bold text-sm tracking-wide transition-transform duration-300 group-hover:-translate-x-1'>
                                         Join Now

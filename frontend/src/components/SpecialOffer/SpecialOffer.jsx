@@ -17,7 +17,6 @@ const SpecialOffer = () => {
             .then(res => setItems(res.data.items ?? res.data))
             .catch(error => console.error(error))
     }, [])
-    console.log(items);
 
     const displayList = Array.isArray(items) ? items.slice(0, showAll ? 8 : 4) : [];
 

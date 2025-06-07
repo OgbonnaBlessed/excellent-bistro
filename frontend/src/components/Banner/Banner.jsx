@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import { FaDownload, FaPlay, FaSearch, FaTimes } from 'react-icons/fa'
 import { bannerAssets } from '../../assets/dummydata'
+import { useNavigate } from 'react-router-dom';
 
 const Banner = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [showVideo, setShowVideo] = useState(false);
     const { bannerImage, orbitImages, video } = bannerAssets;
+    const navigate = useNavigate();
 
     const handleSearch = (e) => {
         e.preventDefault();
         console.log('Searching for:', searchQuery);
+        navigate('/menu');
     }
 
     return (

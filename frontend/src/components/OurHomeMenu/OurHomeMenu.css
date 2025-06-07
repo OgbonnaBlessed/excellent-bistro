@@ -25,13 +25,3 @@
     opacity: 0;
     animation-delay: calc(var(--index) * 0.1s);
 }
-
-::-webkit-scrollbar {
-    width: 8px;
-    background: #2A1E14;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #4A3728;
-    border-radius: 4px;
-}

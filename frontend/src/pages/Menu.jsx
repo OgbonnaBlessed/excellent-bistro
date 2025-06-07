@@ -5,9 +5,7 @@ import OurMenu from '../components/OurMenu/OurMenu'
 const Menu = () => {
     return (
         <>
-            <Navbar />
             <OurMenu />
-            <Footer />
         </>
     )
 }

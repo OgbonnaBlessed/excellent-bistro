@@ -130,14 +130,14 @@ const MyOrder = () => {
     return (
         <div className='min-h-screen bg-gradient-to-r from-[#1A120B] via-[#2A1E14] to-[#3E2B1D] py-12 px-4 sm:px-6 lg:px-8'>
             <div className='mx-auto max-w-7xl'>
+                <Link
+                    to='/'
+                    className='flex items-center gap-2 text-amber-400 hover:text-amber-300'
+                >
+                    <FiArrowLeft className='text-xl'/>
+                    <span className='font-bold'>Back to home</span>
+                </Link>
                 <div className='flex justify-center items-center mb-8'>
-                    <Link
-                        to='/'
-                        className='flex items-center gap-2 text-amber-400 hover:text-amber-300'
-                    >
-                        <FiArrowLeft className='text-xl'/>
-                        <span className='font-bold'>Back to home</span>
-                    </Link>
                     <div className='flex items-center gap-4'>
                         <span className='text-amber-400/70 text-sm'>
                             {user?.email}

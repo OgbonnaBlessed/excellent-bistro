@@ -6,9 +6,7 @@ import Footer from '../components/Footer/Footer'
 const ContactPage = () => {
     return (
         <>
-            <Navbar />
             <Contact />
-            <Footer />
         </>
     )
 }
