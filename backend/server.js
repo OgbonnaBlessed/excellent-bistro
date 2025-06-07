@@ -21,7 +21,7 @@ connectDB();
 // MIDDLEWARE
 app.use(cors({
     origin: (origin, callback) => {
-        const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+        const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', 'https://excellent-bistro-client.onrender.com', 'https://excellent-bistro-admin.onrender.com'];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
