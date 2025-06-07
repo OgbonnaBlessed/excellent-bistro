@@ -220,7 +220,7 @@ const Navbar = () => {
 
                         {/* Mobile Sidebar */}
                         <motion.div
-                            className='fixed top-0 left-0 h-full w-64 bg-[#2D1B0E]/20 backdrop-blur-lg z-50 shadow-lg shadow-black/30 px-6 py-8 space-y-6 overflow-y-auto'
+                            className='fixed top-0 left-0 h-full w-64 bg-[#2D1B0E]/20 backdrop-blur-sm z-50 shadow-lg shadow-black/30 px-6 py-8 space-y-6 overflow-y-auto'
                             variants={mobileNavVariants}
                             initial="hidden"
                             animate="visible"
@@ -240,7 +240,7 @@ const Navbar = () => {
                                     <NavLink
                                         key={link.name}
                                         to={link.href}
-                                        className='flex items-center space-x-3 text-amber-100 hover:text-amber-300 transition-all'
+                                        className='w-full px-4 py-3 bg-gradient-to-b from-amber-500 to-amber-700 rounded-xl font-semibold flex items-center justify-center space-x-2 text-sm text-amber-100 hover:text-amber-300'
                                         onClick={() => setIsOpen(false)}
                                     >
                                         <span className='text-lg'>{link.icon}</span>
