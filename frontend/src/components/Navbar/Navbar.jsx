@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react'
 import { GiChefToque, GiForkKnifeSpoon } from "react-icons/gi";
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
@@ -137,7 +138,7 @@ const Navbar = () => {
                             >
                                 Excellent Bistro
                             </NavLink>
-                            <div className='h-[3px] bg-gradient-to-r from-amber-600/30 via-amber-400/50 to-amber-600/30 w-full mt-1 shadow-[0_2px_5px] shadow-amber-500/20' />
+                            <div className='h-[3px] rounded-3xl bg-gradient-to-r from-amber-600/30 via-amber-400/50 to-amber-600/30 w-full mt-1 shadow-[0_2px_5px] shadow-amber-500/20' />
                         </div>
                     </div>
 

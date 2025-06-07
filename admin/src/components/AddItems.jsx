@@ -169,7 +169,7 @@ const AddItems = () => {
 
                                 <div>
                                     <label className='block mb-2 text-base sm:text-lg text-amber-400'>
-                                        Price (₹)
+                                        Price (₦)
                                     </label>
                                     <div className={styles.relativeInput}>
                                         <FaRupeeSign className={styles.rupeeIcon}/>

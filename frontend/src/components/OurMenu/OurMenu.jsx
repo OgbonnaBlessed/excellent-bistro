@@ -32,7 +32,6 @@ const OurMenu = () => {
 
     // USE ID TO FIND AND UPDATE
     const getCartEntry = id => cartItems.find(ci => ci.item._id === id);
-    const getQuantity = id => getCartEntry(id)?.quantity || 0;
 
     // ITEMS TO DISPLAY
     const displayItems = (menuData[activeCategory] ?? []).slice(0, 12);
@@ -96,7 +95,7 @@ const OurMenu = () => {
                                     <div className='mt-auto flex items-center gap-4 justify-between'>
                                         <div className='bg-amber-100/10 backdrop-blur-sm px-3 py-1 rounded-2xl shadow-lg'>
                                             <span className='text-xl font-bold text-amber-300 font-dancingscript'>
-                                                ₹{Number(item.price).toFixed(2)}
+                                                ₦{Number(item.price).toFixed(2)}
                                             </span>
                                         </div>
 

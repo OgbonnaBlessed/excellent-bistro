@@ -61,7 +61,7 @@ const Cart = () => {
                                         <h3 className='text-xl font-dancingscript text-amber-100'>
                                             {item.name}
                                         </h3>
-                                        <p className='text-amber-100/80 font-cinzel mt-1'>₹{Number(item.price).toFixed(2)}</p>
+                                        <p className='text-amber-100/80 font-cinzel mt-1'>₦{Number(item.price).toFixed(2)}</p>
                                     </div>
 
                                     <div className='flex items-center gap-3'>
@@ -84,14 +84,14 @@ const Cart = () => {
 
                                     <div className='flex items-center justify-between w-full'>
                                         <button
-                                            className='bg-amber-900/40 px-3 py-1 rounded-full font-cinzel text-xs uppercase transition-all duration-300 hover:bg-amber-800/50 flex items-center gap-1'
+                                            className='bg-amber-900/40 px-3 py-2 rounded-full font-cinzel text-xs uppercase transition-all duration-300 hover:bg-amber-800/50 flex items-center gap-1'
                                             onClick={() => removeFromCart(_id)}
                                         >
                                             <FaTrash className='w-4 h-4 text-amber-100' />
                                             <span className='text-amber-100'>Remove</span>
                                         </button>
                                         <p className='text-sm font-dancingscript text-amber-300'>
-                                            ₹{Number(item.price * quantity).toFixed(2)}
+                                            ₦{Number(item.price * quantity).toFixed(2)}
                                         </p>
                                     </div>
                                 </div>
@@ -109,7 +109,7 @@ const Cart = () => {
 
                                 <div className='flex items-center gap-8'>
                                     <h2 className='text-3xl font-dancingscript text-amber-100'>
-                                        Total: ₹{Number(totalAmount).toFixed(2)}
+                                        Total: ₦{Number(totalAmount).toFixed(2)}
                                     </h2>
                                     <Link 
                                         to='/checkout' 
