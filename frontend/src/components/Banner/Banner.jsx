@@ -1,18 +1,20 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { FaDownload, FaPlay, FaSearch, FaTimes } from 'react-icons/fa'
 import { bannerAssets } from '../../assets/dummydata'
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Banner = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [showVideo, setShowVideo] = useState(false);
-    const { bannerImage, orbitImages, video } = bannerAssets;
+    const { bannerImage, orbitImages } = bannerAssets;
     const navigate = useNavigate();
 
     const handleSearch = (e) => {
         e.preventDefault();
         console.log('Searching for:', searchQuery);
-        navigate('/menu');
+        navigate('/search');
     }
 
     return (
@@ -100,26 +102,34 @@ const Banner = () => {
             </div>
 
             {/* VIDEO MODAL */}
-            {showVideo && (
-                <div className='fixed inset-0 flex items-center justify-center z-50 bg-black/90 backdrop-blur-lg p-4'>
-                    <button 
-                        onClick={() => setShowVideo(false)}
-                        className='absolute top-6 right-6 text-amber-400 hover:text-amber-300 text-3xl z-10 transition-all'
+            <AnimatePresence mode='wait'>
+                {showVideo && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className='fixed inset-0 flex items-center justify-center z-50 bg-[#2D1B0E]/20 backdrop-blur-sm p-4'
                     >
-                        <FaTimes />
-                    </button>
-
-                    <div className='w-full max-w-4xl mx-auto'>
-                        <video
-                            controls
-                            autoPlay
-                            className='w-full aspect-video object-contain rounded-lg shadow-2xl'
+                        <button 
+                            onClick={() => setShowVideo(false)}
+                            className='absolute top-6 right-6 text-amber-400 hover:text-amber-300 text-3xl z-10 transition-all'
                         >
-                            <source src={video} type='video/mp4' />
-                        </video>
-                    </div>
-                </div>
-            )}
+                            <FaTimes />
+                        </button>
+
+                        <div className='w-full max-w-4xl mx-auto'>
+                            <video
+                                controls
+                                autoPlay
+                                className='w-full aspect-video object-contain rounded-lg shadow-2xl'
+                            >
+                                <source src='/Video.mp4' type='video/mp4' />
+                            </video>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
