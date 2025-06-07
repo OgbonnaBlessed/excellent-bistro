@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Banner = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [showVideo, setShowVideo] = useState(false);
-    const { bannerImage, orbitImages } = bannerAssets;
+    const { bannerImage, orbitImages, video } = bannerAssets;
     const navigate = useNavigate();
 
     const handleSearch = (e) => {
@@ -124,7 +124,7 @@ const Banner = () => {
                                 autoPlay
                                 className='w-full aspect-video object-contain rounded-lg shadow-2xl'
                             >
-                                <source src='/Video.mp4' type='video/mp4' />
+                                <source src={video} type='video/mp4' />
                             </video>
                         </div>
                     </motion.div>
