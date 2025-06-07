@@ -49,6 +49,7 @@ const Footer = () => {
                                     value={email}
                                     onChange={e => setEmail(e.target.value)}
                                     className='w-full px-4 py-2.5 rounded-lg bg-amber-50/5 border-2 border-amber-400/30 focus:outline-none pr-24 placeholder-amber-200/50 transition-all duration-300 outline-none focus:ring-0'
+                                    autoComplete='off'
                                     required
                                 />
                                 <button
@@ -59,7 +60,7 @@ const Footer = () => {
                                         Join Now
                                     </span>
                                     <BiChevronRight className='text-xl transition-transform duration-300 group-hover:animate-spin flex-shrink-0'/>
-                                    <span className='absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber-50/30 to-transparent group-hover:translate-x-full transition-transform duration-700'/>
+                                    <span className='absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-amber-50/30 to-transparent group-hover:translate-x-full transition-transform duration-700' />
                                 </button>
                             </div>
                         </form>

@@ -144,9 +144,10 @@ const Contact = () => {
                                             value={formData[name]}
                                             name={name}
                                             onChange={handleChange}
-                                            className='w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-amber-500/30 rounded-xl text-amber-50 focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-amber-200/50'
+                                            className='w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-amber-500/30 rounded-xl text-amber-50 focus:ring-0 placeholder-amber-200/50 outline-none'
                                             placeholder={placeholder}
                                             pattern={pattern}
+                                            autoComplete='off'
                                             required 
                                         />
                                     </div>
@@ -165,8 +166,9 @@ const Contact = () => {
                                         rows="4"
                                         value={formData.query}
                                         onChange={handleChange}
-                                        className='w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-amber-500/30 rounded-xl text-amber-50 focus:ring-2 focus:ring-amber-500 focus:border-transparent placeholder-amber-200/50'
+                                        className='w-full pl-10 pr-4 py-3 bg-white/10 border-2 border-amber-500/30 rounded-xl text-amber-50 focus:ring-0 outline-none placeholder-amber-200/50'
                                         placeholder='Type your message here...'
+                                        autoComplete='off'
                                         required
                                     ></textarea>
                                 </div>

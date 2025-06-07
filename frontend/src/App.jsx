@@ -13,6 +13,7 @@ import MyOrderPage from './pages/MyOrderPage'
 import ScrollToTop from './components/ScrollToTop.js/ScrollToTop'
 import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
+import SearchPage from './pages/SearchPage'
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/menu' element={<Menu />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/contact' element={<ContactPage />} />
+        <Route path='/search' element={<SearchPage />} />
 
         {/* PAYMENT VERIFICATION */}
         <Route path='/myorder/verify' element={<VerifyPaymentPage />} />
