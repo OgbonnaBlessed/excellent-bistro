@@ -13,9 +13,12 @@ const Banner = () => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        console.log('Searching for:', searchQuery);
-        navigate('/search');
-    }
+        if (searchQuery.trim()) {
+            navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+        } else {
+            navigate('/search');
+        }
+    };
 
     return (
         <div className="relative">
