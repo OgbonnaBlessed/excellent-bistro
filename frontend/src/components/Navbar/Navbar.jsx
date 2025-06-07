@@ -4,6 +4,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { FiBook, FiHome, FiKey, FiLogOut, FiPhone, FiShoppingCart, FiStar, FiPackage } from 'react-icons/fi'
 import { useCart } from '../../CartContext/CartContext';
 import Login from '../Login/Login';
+import { motion, AnimatePresence } from 'framer-motion'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -88,6 +89,28 @@ const Navbar = () => {
         ] : [])
     ];
 
+    // Motion variants for nav and overlay
+    const overlayVariants = {
+        hidden: { x: '-100%' },
+        visible: { 
+            x: 0,
+            transition: { type: 'tween', duration: 0.5 }
+        },
+        exit: { x: '-100%', transition: { type: 'tween', duration: 0.5, delay: 0.4 } }, // delay to allow nav to exit first
+    };
+
+    const mobileNavVariants = {
+        hidden: { x: '-100%' },
+        visible: {
+            x: 0,
+            transition: { type: 'tween', duration: 0.5, delay: 0.4 }, // delay after overlay
+        },
+        exit: {
+            x: '-100%',
+            transition: { type: 'tween', duration: 0.5 },
+        },
+    };
+
     return (
         <nav className='bg-[#2D1B0E] border-b-8 border-amber-900/30 shadow-amber-900/30 sticky top-0 z-50 shadow-[0_25px_50px_-12px] font-vibes group/nav overflow-x-hidden'>
             <div className='absolute -top-3 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4'>
@@ -110,11 +133,11 @@ const Navbar = () => {
                         <div className='flex flex-col relative ml-2 max-w-[140px] md:max-w-[160px] lg:max-w-none'>
                             <NavLink
                                 to='/'
-                                className='text-2xl md:text-xl lg:text-4xl bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent font-monsieur tracking-wider drop-shadow-[0_2px_2px] drop-shadow-black -translate-x-2 truncate md:truncate-none'
+                                className='text-2xl md:text-xl lg:text-4xl bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent font-monsieur tracking-wider drop-shadow-[0_2px_2px] drop-shadow-black truncate md:truncate-none'
                             >
                                 Excellent Bistro
                             </NavLink>
-                            <div className='h-[3px] bg-gradient-to-r from-amber-600/30 via-amber-400/50 to-amber-600/30 w-full mt-1 ml-1 shadow-[0_2px_5px] shadow-amber-500/20' />
+                            <div className='h-[3px] bg-gradient-to-r from-amber-600/30 via-amber-400/50 to-amber-600/30 w-full mt-1 shadow-[0_2px_5px] shadow-amber-500/20' />
                         </div>
                     </div>
 
@@ -158,10 +181,22 @@ const Navbar = () => {
                             className='text-amber-500 hover:text-amber-300 focus:outline-none transition-all p-2 rounded-xl border-2 border-amber-900/30 hover:border-amber-600/50 relative shadow-md shadow-amber-900 hover:shadow-lg hover:shadow-amber-500/30'
                             onClick={() => setIsOpen(!isOpen)}
                         >
-                            <div className='space-y-2 relative'>
-                                <span className={`block w-6 h-[2px] bg-current transition-all ${isOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
-                                <span className={`block w-6 h-[2px] bg-current ${isOpen ? 'opacity-0' : ''}`} />
-                                <span className={`block w-6 h-[2px] bg-current transition-all ${isOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+                            <div className='relative w-6 h-5'>
+                                <span
+                                    className={`absolute top-0 left-0 w-6 h-[2px] bg-current transition-transform duration-300 ease-in-out ${
+                                        isOpen ? 'rotate-45 top-2.5' : ''
+                                    }`}
+                                />
+                                <span
+                                    className={`absolute top-2.5 left-0 w-6 h-[2px] bg-current transition-opacity duration-300 ${
+                                        isOpen ? 'opacity-0' : 'opacity-100'
+                                    }`}
+                                />
+                                <span
+                                    className={`absolute bottom-0 left-0 w-6 h-[2px] bg-current transition-transform duration-300 ease-in-out ${
+                                        isOpen ? '-rotate-45 bottom-2.5' : ''
+                                    }`}
+                                />
                             </div>
                         </button>
                     </div>
@@ -169,46 +204,67 @@ const Navbar = () => {
             </div>
 
             {/* MOBILE NAVIGATION */}
-            {isOpen && (
-                <div className='md:hidden bg-[#2D1B0E] border-t-4 border-amber-900/40 relative shadow-lg shadow-amber-900/30 w-full'>
-                    <div className='px-4 py-4 space-y-2'>
-                        {navLinks.map((link) => (
-                            <NavLink
-                                key={link.name}
-                                to={link.href}
-                                onClick={() => setIsOpen(false)}
-                                className={({isActive}) => `block px-4 py-3 text-sm rounded-xl transition-all items-center border-2
-                                    ${isActive 
-                                        ? 'bg-amber-600/30 text-amber-400 border-amber-600/50' 
-                                        : 'text-amber-100 hover:bg-amber-600/20 border-amber-900/30'
-                                    }`
-                                }
-                            >
-                                <span className='mr-3 text-amber-500'>
-                                    {link.icon}
-                                </span>
-                                {link.name}
-                            </NavLink>
-                        ))}
+            <AnimatePresence>
+                {isOpen && (
+                    <>
+                        {/* Overlay */}
+                        <motion.div
+                            className='fixed inset-0 bg-black/20 z-40'
+                            variants={overlayVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                            onClick={() => setIsOpen(false)}
+                        />
 
-                        <div className='pt-4 border-t-2 border-amber-900/30 space-y-2'>
-                            <NavLink
-                                to='/cart'
+                        {/* Mobile Sidebar */}
+                        <motion.div
+                            className='fixed top-0 left-0 h-full w-64 bg-[#2D1B0E]/20 backdrop-blur-lg z-50 shadow-lg shadow-black/30 px-6 py-8 space-y-6 overflow-y-auto'
+                            variants={mobileNavVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            {/* Close Button */}
+                            <button
+                                className='text-amber-400 hover:text-amber-200 text-lg'
                                 onClick={() => setIsOpen(false)}
-                                className='w-full px-4 py-3 text-center text-amber-100 rounded-xl border-2 border-amber-900/30 flex items-center justify-center space-x-2 text-sm'
                             >
-                                <FiShoppingCart className='text-lg' />
-                                {totalItems > 0 && (
-                                    <span className='top-2 right-2 bg-amber-600 text-amber-100 text-xs w-5 h-5 rounded-full flex items-center justify-center'>
-                                        {totalItems}
-                                    </span>
-                                )}
-                            </NavLink>
-                            {renderMobileAuthButton()}
-                        </div>
-                    </div>
-                </div>
-            )}
+                                Close
+                            </button>
+
+                            {/* Nav Links */}
+                            <nav className='space-y-4'>
+                                {navLinks.map((link) => (
+                                    <NavLink
+                                        key={link.name}
+                                        to={link.href}
+                                        className='flex items-center space-x-3 text-amber-100 hover:text-amber-300 transition-all'
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        <span className='text-lg'>{link.icon}</span>
+                                        <span className='text-base font-medium'>{link.name}</span>
+                                    </NavLink>
+                                ))}
+                            </nav>
+
+                            {/* Cart & Auth */}
+                            <div className='pt-6 space-y-4 border-t border-amber-900'>
+                                <NavLink
+                                    to='/cart'
+                                    className='flex items-center space-x-3 text-amber-100 hover:text-amber-300'
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <FiShoppingCart />
+                                    <span>Cart ({totalItems})</span>
+                                </NavLink>
+
+                                {renderMobileAuthButton()}
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
 
             {/* LOGIN MODAL */}
             {showLoginModal && (
