@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroui/checkbox": "^2.3.19",
+    "@heroui/react": "^2.7.9",
     "@tailwindcss/vite": "^4.1.7",
     "axios": "^1.9.0",
     "framer-motion": "^12.15.0",

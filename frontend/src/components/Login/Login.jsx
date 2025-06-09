@@ -3,6 +3,7 @@ import { FaArrowRight, FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaUserP
 import { iconClass, inputBase } from '../../assets/dummydata';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import {Checkbox} from "@heroui/react";
 
 const url = 'https://excellent-bistro.onrender.com'
 
@@ -90,7 +91,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
                 onSubmit={handleSubmit} 
                 className='space-y-6'
             >
-                <div className='relative'>
+                <div className='relative transition-all duration-200 hover:scale-[1.02]'>
                     <FaUser className={iconClass} />
                     <input 
                         type="email" 
@@ -101,7 +102,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
                         className={`${inputBase} pl-10 pr-4 py-3`}
                     />
                 </div>
-                <div className='relative'>
+                <div className='relative transition-all duration-200 hover:scale-[1.02]'>
                     <FaLock className={iconClass} />
                     <input 
                         type={showPassword ? 'text' : 'password'}
@@ -121,21 +122,12 @@ const Login = ({ onLoginSuccess, onClose }) => {
                 </div>
 
                 <div className='flex items-center'>
-                    <label className='flex items-center'>
-                        <input 
-                            type="checkbox" 
-                            name='rememberMe'
-                            checked={formData.rememberMe}
-                            onChange={handleChange}
-                            className='form-checkbox h-5 w-5 text-amber-600 bg-[#2D1B0E] border-amber-400 rounded focus:ring-amber-600'
-                        />
-                        <span className='ml-2 text-amber-100'>
-                            Remember me
-                        </span>
-                    </label>
+                    <Checkbox defaultSelected radius="sm">
+                        Small
+                    </Checkbox>
                 </div>
 
-                <button className='w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-[#2D1B0E] font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-105 transition-transform'>
+                <button className='w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-[#2D1B0E] font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform'>
                     Sign In <FaArrowRight />
                 </button>
             </form>

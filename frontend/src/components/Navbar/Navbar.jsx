@@ -220,7 +220,7 @@ const Navbar = () => {
 
                         {/* Mobile Sidebar */}
                         <motion.div
-                            className='fixed top-0 left-0 h-full w-64 bg-[#2D1B0E]/20 backdrop-blur-sm z-50 shadow-lg shadow-black/30 px-6 py-8 space-y-6 overflow-y-auto'
+                            className='fixed top-0 left-0 h-full w-64 bg-[#2D1B0E]/20 backdrop-blur-xs z-50 shadow-lg shadow-black/30 px-6 py-8 space-y-6 overflow-y-auto'
                             variants={mobileNavVariants}
                             initial="hidden"
                             animate="visible"
@@ -268,25 +268,33 @@ const Navbar = () => {
             </AnimatePresence>
 
             {/* LOGIN MODAL */}
-            {showLoginModal && (
-                <div className='fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4'>
-                    <div className='bg-gradient-to-br fro-[#2D1B0E] to-[#4A372A] rounded-xl p-6 w-full max-w-[480px] relative border-4 border-amber-700/30 shadow-[0_0_30px] shadow-amber-500/30'>
-                        <button
-                            onClick={() => navigate('/')}
-                            className='absolute top-2 right-2 text-amber-500 hover:text-amber-300 text-2xl'
-                        >
-                            &times;
-                        </button>
-                        <h2 className='text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent mb-4 text-center'>
-                            Excellent-bistro
-                        </h2>
-                        <Login
-                            onLoginSuccess={handleLoginSuccess} 
-                            onClose={() => navigate('/')} 
-                        />
-                    </div>
-                </div>
-            )}
+            <AnimatePresence mode='wait'>
+                {showLoginModal && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        className='fixed inset-0 bg-[#2D1B0E]/20 backdrop-blur-xs flex items-center justify-center z-50 p-4'
+                    >
+                        <div className='bg-gradient-to-br fro-[#2D1B0E] to-[#4A372A] rounded-xl p-6 w-full max-w-[480px] relative shadow-[0_0_30px] shadow-amber-500/30'>
+                            <button
+                                onClick={() => navigate('/')}
+                                className='absolute top-2 right-2 text-amber-500 hover:text-amber-300 text-2xl'
+                            >
+                                &times;
+                            </button>
+                            <h2 className='text-2xl font-bold bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent mb-4 text-center'>
+                                Excellent-bistro
+                            </h2>
+                            <Login
+                                onLoginSuccess={handleLoginSuccess} 
+                                onClose={() => navigate('/')} 
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     )
 }
