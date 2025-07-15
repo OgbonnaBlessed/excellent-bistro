@@ -30,6 +30,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
             if (res.status === 200 && res.data.success && res.data.token) {
                 localStorage.setItem('authToken', res.data.token);
                 console.log('authToken:', res.data.token);
+                console.log('user data:', res.data.user);
 
                 // REMEMBER ME
                 formData.rememberMe
@@ -42,7 +43,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
                 
                 toast.success(res?.data?.message);
                 setTimeout(() => {
-                    onLoginSuccess(res.data.token);
+                    onLoginSuccess({ token: res.data.token, user: res.data.user });
                 }, 2000);
                 
             } else {

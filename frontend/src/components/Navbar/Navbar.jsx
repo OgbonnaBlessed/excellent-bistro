@@ -18,22 +18,28 @@ const Navbar = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(
         Boolean(localStorage.getItem('loginData'))
     )
+    console.log(isAuthenticated)
 
     const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem('loginData');
         return storedUser ? JSON.parse(storedUser) : null;
     })
+    console.log('user:', user);
 
     useEffect(() => {
         setShowLoginModal(location.pathname === '/login');
         setIsAuthenticated(Boolean(localStorage.getItem('loginData')))
-    }, [location.pathname])
+    }, [location.pathname]);
 
-    const handleLoginSuccess = () => {
-        localStorage.setItem('loginData', JSON.stringify({ loggedIn: true }));
+    const handleLoginSuccess = (data) => {
+        localStorage.setItem('loginData', JSON.stringify({
+            ...data.user,
+            token: data.token
+        }));
+        setUser(data.user); // <- update local state
         setIsAuthenticated(true);
         navigate('/');
-    }
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('loginData');
@@ -97,10 +103,10 @@ const Navbar = () => {
         { name: 'Menu', href: '/menu', icon: <FiBook /> },
         { name: 'About', href: '/about', icon: <FiStar /> },
         { name: 'Contact', href: '/contact', icon: <FiPhone /> },
-        ...(isAuthenticated ? [
+        ...(isAuthenticated && user?.isAdmin === false ? [
             { name: 'Orders', href: '/myorder', icon: <FiPackage />}
         ] : []),
-        ...(user?.isAdmin === true ? [
+        ...(isAuthenticated && user?.isAdmin ? [
             { name: 'Admin', href: '/admin-panel', icon: <FiKey /> }
         ] : [])
     ];
@@ -163,7 +169,12 @@ const Navbar = () => {
                             <NavLink
                                 key={link.name}
                                 to={link.href}
-                                className={({ isActive }) => `group px-3 md:px-3 lg:px-4 py-2 md:py-2 lg:py-3 text-[15px] lg:text-base relative transition-all duration-300 flex items-center hover:bg-amber-900/20 rounded-3xl border-2 ${isActive ? 'border-amber-600/50 bg-amber-900/20 shadow-[inset_0_0_15px] shadow-amber-500/20' : 'border-amber-900/30 hover:border-amber-600/50'} shadow-md shadow-amber-900/20`}
+                                className={({ isActive }) => `group px-3 md:px-3 lg:px-4 py-2 md:py-2 lg:py-3 text-[15px] lg:text-base relative transition-all duration-300 flex items-center hover:bg-amber-900/20 rounded-3xl border-2 
+                                    ${
+                                        isActive 
+                                            ? 'border-amber-600/50 bg-amber-900/20 shadow-[inset_0_0_15px] shadow-amber-500/20' 
+                                            : 'border-amber-900/30 hover:border-amber-600/50'} shadow-md shadow-amber-900/20`
+                                    }
                             >
                                 <span className='mr-2 text-sm md:text-[15px] lg:text-base text-amber-500 group-hover:text-amber-300 transition-all'>
                                     { link.icon }
