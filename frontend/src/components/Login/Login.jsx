@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaArrowRight, FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaUserPlus } from 'react-icons/fa';
 import { iconClass, inputBase } from '../../assets/dummydata';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import {Checkbox} from "@heroui/react";
+import { toast } from 'sonner';
 
-const url = 'https://excellent-bistro.onrender.com'
+const API_URL = import.meta.env.VITE_API_URL
 
 const Login = ({ onLoginSuccess, onClose }) => {
-    const [showToast, setShowToast] = useState({ visible: false, message: '', isError: '' });
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '', rememberMe: '' });
 
@@ -21,7 +21,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
         e.preventDefault();
 
         try {
-            const res = await axios.post(`${url}/api/user/login`, {
+            const res = await axios.post(`${API_URL}/api/user/login`, {
                 email: formData.email,
                 password: formData.password
             })
@@ -33,31 +33,27 @@ const Login = ({ onLoginSuccess, onClose }) => {
 
                 // REMEMBER ME
                 formData.rememberMe
-                    ? localStorage.setItem('loginData', JSON.stringify(formData))
+                    ? localStorage.setItem('loginData', 
+                        JSON.stringify({
+                            ...res.data.user,
+                            token: res.data.token
+                        }))
                     : localStorage.removeItem('loginData');
                 
-                setShowToast({ visible: true, message: 'login successful!', isError: false });
+                toast.success(res?.data?.message);
                 setTimeout(() => {
-                    setShowToast({ visible: false, message: '', isError: false });
                     onLoginSuccess(res.data.token);
-                }, 1500);
+                }, 2000);
+                
             } else {
                 console.warn('unexpected error:', res.data);
-                throw new Error(res.data.message || 'login failed')
+                toast.error(res?.data?.message)
             }
 
         } catch (error) {
             console.error('axios error:', error);
-            if (error.response) {
-                console.error('server res:', error.response.status, error.response.data);
-            }
-
             const msg = error.response?.data?.message || error.message || 'login failed'
-            setShowToast({ visible: true, message: msg, isError: false });
-            setTimeout(() => {
-                setShowToast({ visible: false, message: '', isError: false });
-                // onLoginSuccess(res.data.token);
-            }, 2000);
+            toast.error(msg);
         }
     }
 
@@ -68,25 +64,6 @@ const Login = ({ onLoginSuccess, onClose }) => {
 
     return (
         <div className='space-y-6 relative'>
-            <div className={`fixed top-4 right-4 z-50 transition-all duration-300 
-                ${showToast.visible
-                    ? 'translate-y-0 opacity-100' 
-                    : 'translate-y-20 opacity-0'}`
-                }
-            >
-                <div 
-                    className={`px-4 py-3 rounded-md shadow-lg flex items-center gap-2 text-sm text-white 
-                        ${showToast.isError 
-                            ? 'bg-red-600' 
-                            : 'bg-green-400'
-                        }`
-                    }
-                >
-                    <FaCheckCircle className='flex-shrink-0' />
-                    <span>{showToast.message}</span>
-                </div>
-            </div>
-
             <form 
                 onSubmit={handleSubmit} 
                 className='space-y-6'

@@ -3,30 +3,6 @@ import jwt from 'jsonwebtoken';
 import bycrypt from 'bcryptjs';
 import validator from 'validator';
 
-// LOGIN FUNCTION
-export const loginUser = async (req, res) => {
-    const { email, password } = req.body
-
-    try {
-        const user = await userModel.findOne({ email })
-        if (!user) {
-            return res.json({ success: false, message: "user doesn't exist" });
-        }
-
-        const isMatch = await bycrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.json({ success: false, message: "invalid credentials" })
-        }
-
-        const token = createToken(user._id);
-        res.json({ success: true, token });
-
-    } catch (error) {
-        console.log(error);
-        res.json({ success: false, message: "error logging in user" })
-    }
-}
-
 // CREATE A TOKEN
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET);
@@ -59,15 +35,40 @@ export const registerUser = async (req, res) => {
         const newUser = new userModel({
             username: username,
             email: email,
-            password: hashedPassword
+            password: hashedPassword,
+            isAdmin: false
         });
 
         const user = await newUser.save();
         const token = createToken(user._id)
-        res.json({ success: true, token })
+        res.json({ success: true, user, token, message: "sign up successful" })
 
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: "error registering user" });
+    }
+}
+
+// LOGIN FUNCTION
+export const loginUser = async (req, res) => {
+    const { email, password } = req.body
+
+    try {
+        const user = await userModel.findOne({ email })
+        if (!user) {
+            return res.json({ success: false, message: "user doesn't exist" });
+        }
+
+        const isMatch = await bycrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.json({ success: false, message: "invalid credentials" })
+        }
+
+        const token = createToken(user._id);
+        res.json({ success: true, user, token, message: "log in successful" });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: "error logging in user" })
     }
 }

@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { CartProvider } from './CartContext/CartContext.jsx'
 import { HeroUIProvider } from "@heroui/system";
 import { StrictMode } from 'react'
+import { Toaster } from "sonner"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')).render(
       <CartProvider>
         <BrowserRouter>
           <App />
+          <Toaster richColors position="bottom-right" />
         </BrowserRouter>
       </CartProvider>
     </HeroUIProvider>

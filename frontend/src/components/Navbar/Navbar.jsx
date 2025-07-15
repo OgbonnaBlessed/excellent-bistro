@@ -19,6 +19,11 @@ const Navbar = () => {
         Boolean(localStorage.getItem('loginData'))
     )
 
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem('loginData');
+        return storedUser ? JSON.parse(storedUser) : null;
+    })
+
     useEffect(() => {
         setShowLoginModal(location.pathname === '/login');
         setIsAuthenticated(Boolean(localStorage.getItem('loginData')))
@@ -34,6 +39,13 @@ const Navbar = () => {
         localStorage.removeItem('loginData');
         setIsAuthenticated(false);
     }
+
+    useEffect(() => {
+        setShowLoginModal(location.pathname === '/login');
+        const storedUser = localStorage.getItem('loginData');
+        setIsAuthenticated(Boolean(storedUser));
+        setUser(storedUser ? JSON.parse(storedUser) : null);
+    }, [location.pathname]);
 
     // EXTRACT DESKTOP AUTH BUTTON
     const renderDesktopAuthButton = () => {
@@ -87,6 +99,9 @@ const Navbar = () => {
         { name: 'Contact', href: '/contact', icon: <FiPhone /> },
         ...(isAuthenticated ? [
             { name: 'Orders', href: '/myorder', icon: <FiPackage />}
+        ] : []),
+        ...(user?.isAdmin === true ? [
+            { name: 'Admin', href: '/admin-panel', icon: <FiKey /> }
         ] : [])
     ];
 
