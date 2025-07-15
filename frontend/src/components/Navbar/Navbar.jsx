@@ -107,7 +107,7 @@ const Navbar = () => {
             { name: 'Orders', href: '/myorder', icon: <FiPackage />}
         ] : []),
         ...(isAuthenticated && user?.isAdmin ? [
-            { name: 'Admin', href: '/admin-panel', icon: <FiKey /> }
+            { name: 'Admin', href: '/add-items', icon: <FiKey /> }
         ] : [])
     ];
 

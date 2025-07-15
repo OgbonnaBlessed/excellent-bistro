@@ -5,6 +5,16 @@ export const createItem = async (req, res, next) => {
         const { name, description, category, price, rating, hearts } = req.body;
         const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
 
+        if (!imageUrl) {
+            res.status(400).json({ message: 'kindly add an image'});
+            return;
+        }
+
+        if (!name || !description || !category || !price || rating || !hearts) {
+            res.status(400).json({ message: 'please fill all fields'});
+            return;
+        }
+
         const total = Number(price) * 1;
 
         const newItem = new itemModel({
@@ -19,7 +29,8 @@ export const createItem = async (req, res, next) => {
         })
 
         const saved = await newItem.save();
-        res.status(201).json
+        res.status(200).json({ message: 'item added successfully', saved });
+
     } catch (err) {
         if (err.code === 11000) {
             res.status(400).json({ message: 'Item name already exists' });

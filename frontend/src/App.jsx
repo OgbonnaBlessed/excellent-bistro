@@ -15,18 +15,21 @@ import Navbar from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer'
 import SearchPage from './pages/SearchPage'
 import AdminPanel from './pages/AdminPanel'
-import AdminRoute from './components/AdminRoute/AdminRoute'
-import AdminNavbar from './components/AdminNavbar/AdminNavbar' // <-- custom admin navbar
+import AdminRoutes from './components/AdminRoute/AdminRoute'
+import ListItems from './pages/ListItems'
+import Order from './pages/Order'
+import AdminNavbar from './components/AdminNavbar/AdminNavbar'
 
 const App = () => {
   const location = useLocation();
-  const isAdminPanel = location.pathname.startsWith('/admin-panel');
+  const adminPaths = ['/add-items', '/list', '/orders'];
+  const isAdminPanel = adminPaths.some(path => location.pathname.startsWith(path));
 
   return (
     <>
       <ScrollToTop />
-      {!isAdminPanel && <Navbar />}
-      
+      {isAdminPanel ? <AdminNavbar /> : <Navbar />}
+
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Home />} />
@@ -36,20 +39,14 @@ const App = () => {
         <Route path='/contact' element={<ContactPage />} />
         <Route path='/search' element={<SearchPage />} />
 
-        {/* ADMIN ROUTE (No Navbar & Footer from main layout) */}
-        <Route
-          path='/admin-panel'
-          element={
-            <AdminRoute>
-              <>
-                <AdminNavbar />
-                <AdminPanel />
-              </>
-            </AdminRoute>
-          }
-        />
+        {/* ADMIN ROUTES */}
+        <Route element={<AdminRoutes />}>
+          <Route path='/add-items' element={<AdminPanel />} />
+          <Route path='/list' element={<ListItems />} />
+          <Route path='/orders' element={<Order />} />
+        </Route>
 
-        {/* PAYMENT VERIFICATION (can be public or protected) */}
+        {/* PAYMENT VERIFICATION */}
         <Route path='/myorder/verify' element={<VerifyPaymentPage />} />
 
         {/* GROUPED PRIVATE ROUTES */}
@@ -62,7 +59,7 @@ const App = () => {
 
       {!isAdminPanel && <Footer />}
     </>
-  );
-};
+  )
+}
 
 export default App;
