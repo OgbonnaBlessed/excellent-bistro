@@ -115,15 +115,6 @@ const Footer = () => {
                     <p className='text-amber-400 text-lg mb-2 font-playfair'>
                         &copy; 2025 Excellent Bistro. All Rights Reserved.
                     </p>
-                    <div className='group inline-block'>
-                        <a 
-                            href="/"
-                            target='_blank'
-                            className='text-lg font-sacramento bg-gradient-to-r from-amber-400 via-amber-500 to-amber-400 bg-clip-text text-transparent hover:text-purple-300 transition-all duration-300'
-                        >
-                            Designed by Ace Web Art
-                        </a>
-                    </div>
                 </div>
             </div>
         </footer>

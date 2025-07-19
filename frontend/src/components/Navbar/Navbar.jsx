@@ -103,7 +103,7 @@ const Navbar = () => {
         { name: 'Menu', href: '/menu', icon: <FiBook /> },
         { name: 'About', href: '/about', icon: <FiStar /> },
         { name: 'Contact', href: '/contact', icon: <FiPhone /> },
-        ...(isAuthenticated && user?.isAdmin === false ? [
+        ...(isAuthenticated ? [
             { name: 'Orders', href: '/myorder', icon: <FiPackage />}
         ] : []),
         ...(isAuthenticated && user?.isAdmin ? [

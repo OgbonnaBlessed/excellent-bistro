@@ -3,14 +3,15 @@ import { FaArrowRight, FaCheckCircle, FaEye, FaEyeSlash, FaLock, FaUser, FaUserP
 import { iconClass, inputBase } from '../../assets/dummydata';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import {Checkbox} from "@heroui/react";
 import { toast } from 'sonner';
+import Checkbox from '../Common/Checkbox/Checkbox';
 
 const API_URL = import.meta.env.VITE_API_URL
 
 const Login = ({ onLoginSuccess, onClose }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({ email: '', password: '', rememberMe: '' });
+    const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
         const stored = localStorage.getItem('loginData');
@@ -58,8 +59,17 @@ const Login = ({ onLoginSuccess, onClose }) => {
         }
     }
 
-    const handleChange = ({ target: { name, value, type, checked }}) => 
-        setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    const handleChange = (e) => {
+        const { name, type, checked, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+    };
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+    }
 
     const toggleShowPassword = () => setShowPassword(prev => !prev);
 
@@ -99,11 +109,14 @@ const Login = ({ onLoginSuccess, onClose }) => {
                     </button>
                 </div>
 
-                <div className='flex items-center'>
-                    <Checkbox defaultSelected radius="sm">
-                        Small
-                    </Checkbox>
-                </div>
+                <Checkbox 
+                    label="Remember me"
+                    isChecked={isChecked}
+                    onChange={handleCheckboxChange}
+                    customStyles={{
+                        container: { width: 'fit-content' }
+                    }}
+                />
 
                 <button className='w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-[#2D1B0E] font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform'>
                     Sign In <FaArrowRight />
