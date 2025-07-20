@@ -23,20 +23,20 @@
   border: 2px solid #fbbf24;
   position: relative;
   transition: background-color 0.3s;
+  box-sizing: border-box;
 }
 
 .checkbox-container input:checked + .checkmark {
   background-color: #fbbf24;
 }
 
-/* ✅ Correct Checkmark styling */
 .checkmark::after {
   content: "";
   position: absolute;
   display: none;
   left: 50%;
   top: 50%;
-  width: 5px;
+  width: 6px;
   height: 10px;
   border: solid white;
   border-width: 0 2px 2px 0;

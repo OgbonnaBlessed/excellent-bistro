@@ -15,7 +15,22 @@ const Login = ({ onLoginSuccess, onClose }) => {
 
     useEffect(() => {
         const stored = localStorage.getItem('loginData');
-        if (stored) setFormData(JSON.parse(stored));
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            const now = new Date().getTime();
+
+            if (parsed.expiresAt && parsed.expiresAt > now) {
+                setFormData({
+                    email: parsed.user?.email || '',
+                    password: '',
+                    rememberMe: true
+                });
+                setIsChecked(true);
+
+            } else {
+                localStorage.removeItem('loginData');
+            }
+        };
     }, []);
 
     const handleSubmit = async (e) => {
@@ -24,7 +39,8 @@ const Login = ({ onLoginSuccess, onClose }) => {
         try {
             const res = await axios.post(`${API_URL}/api/user/login`, {
                 email: formData.email,
-                password: formData.password
+                password: formData.password,
+                rememberMe: formData.rememberMe
             })
             console.log('axios res:', res.data.message);
 
@@ -33,15 +49,19 @@ const Login = ({ onLoginSuccess, onClose }) => {
                 console.log('authToken:', res.data.token);
                 console.log('user data:', res.data.user);
 
-                // REMEMBER ME
-                formData.rememberMe
-                    ? localStorage.setItem('loginData', 
+                if (formData.rememberMe) {
+                    const expiresAt = new Date().getTime() + 30 * 24 * 60 * 60 * 1000;
+                    localStorage.setItem('loginData',
                         JSON.stringify({
-                            ...res.data.user,
-                            token: res.data.token
-                        }))
-                    : localStorage.removeItem('loginData');
-                
+                            token: res.data.token,
+                            user: res.data.user,
+                            expiresAt
+                        })
+                    );
+                } else {
+                    localStorage.removeItem('loginData');
+                }
+
                 toast.success(res?.data?.message);
                 setTimeout(() => {
                     onLoginSuccess({ token: res.data.token, user: res.data.user });
@@ -68,8 +88,15 @@ const Login = ({ onLoginSuccess, onClose }) => {
     };
 
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked);
-    }
+        setIsChecked(prev => {
+            const updated = !prev;
+            setFormData((prevForm) => ({
+                ...prevForm,
+                rememberMe: updated
+            }));
+            return updated;
+        });
+    };
 
     const toggleShowPassword = () => setShowPassword(prev => !prev);
 
@@ -118,7 +145,7 @@ const Login = ({ onLoginSuccess, onClose }) => {
                     }}
                 />
 
-                <button className='w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-[#2D1B0E] font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] transition-transform'>
+                <button className='w-full py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-[#2D1B0E] font-bold rounded-lg flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.95] transition-transform'>
                     Sign In <FaArrowRight />
                 </button>
             </form>

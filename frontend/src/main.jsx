@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')).render(
       <CartProvider>
         <BrowserRouter>
           <App />
-          <Toaster richColors position="bottom-right" />
+          <Toaster richColors closeButton position="bottom-right" />
         </BrowserRouter>
       </CartProvider>
     </HeroUIProvider>

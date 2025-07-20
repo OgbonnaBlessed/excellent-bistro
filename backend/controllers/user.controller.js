@@ -4,8 +4,9 @@ import bycrypt from 'bcryptjs';
 import validator from 'validator';
 
 // CREATE A TOKEN
-const createToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET);
+const createToken = (id, rememberMe = false) => {
+    const expiresIn = rememberMe ? '30d' : '7d';
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn });
 }
 
 // REGISTER FUNCTION
@@ -51,7 +52,7 @@ export const registerUser = async (req, res) => {
 
 // LOGIN FUNCTION
 export const loginUser = async (req, res) => {
-    const { email, password } = req.body
+    const { email, password, rememberMe } = req.body
 
     try {
         if (!email || !password) {
@@ -68,7 +69,7 @@ export const loginUser = async (req, res) => {
             return res.json({ success: false, message: "invalid credentials" })
         }
 
-        const token = createToken(user._id);
+        const token = createToken(user._id, rememberMe);
         res.json({ success: true, user, token, message: "log in successful" });
 
     } catch (error) {
